@@ -51,13 +51,14 @@ public class Launcher {
                 .then("person.setAdult(true);");
         MVELRuleFactory ruleFactory = new MVELRuleFactory(new YamlRuleDefinitionReader());
         String fileName = args.length != 0 ? args[0] : "easy-rules-tutorials/src/main/java/org/jeasy/rules/tutorials/shop/alcohol-rule.yml";
-        Rule alcoholRule = ruleFactory.createRule(new FileReader(fileName));
+        Rules alcoholRule = ruleFactory.createRules(new FileReader(fileName));
 
         // create a rule set
         Rules rules = new Rules();
         rules.register(ageRule);
-        rules.register(alcoholRule);
-
+        for(Rule ruleItem: alcoholRule) {
+            rules.register(ruleItem);
+        }
         //create a default rules engine and fire rules on known facts
         RulesEngine rulesEngine = new DefaultRulesEngine();
 
